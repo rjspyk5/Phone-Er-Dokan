@@ -3,23 +3,28 @@ const submitBtn = document.getElementById("submit");
 const cardContainer = document.getElementById("card-container");
 
 // find data
-const findData = async (searchIteam) => {
+const findData = async (searchIteam = "Iphone") => {
   const promisedData = await fetch(
     `https://openapi.programming-hero.com/api/phones?search=${searchIteam}`
   );
   const parsedData = await promisedData.json();
   const alldata = parsedData.data;
+  cardContainer.innerHTML = "";
   const first15 = alldata.slice(0, 12);
-
   first15.forEach((el) => {
     setDataOnCard(el);
   });
+  // show button checker
+  if (alldata.length > 12) {
+    document.getElementById("showSection").classList.remove("hidden");
+  }
 };
 
 // Set data on website
 const setDataOnCard = (el) => {
   const div = document.createElement("div");
-  div.className = "max-w-sm bg-white border border-gray-200 rounded-lg shadow";
+  div.className =
+    "max-w-sm bg-white border border-gray-200 rounded-lg shadow py-3";
   div.innerHTML = `
  <img class="mx-auto" src=${el?.image} alt="${el?.phone_name} img"/>
  <div class="p-5 flex flex-col justify-center items-center">
@@ -39,4 +44,5 @@ const handleSubmit = (e) => {
   const searchIteam = searchBox.value;
   findData(searchIteam);
 };
+findData();
 submitBtn.addEventListener("click", handleSubmit);
