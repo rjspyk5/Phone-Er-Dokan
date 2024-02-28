@@ -9,8 +9,9 @@ const findData = async (searchIteam) => {
   );
   const parsedData = await promisedData.json();
   const alldata = parsedData.data;
+  const first15 = alldata.slice(0, 12);
 
-  alldata.forEach((el) => {
+  first15.forEach((el) => {
     setDataOnCard(el);
   });
 };
@@ -20,7 +21,7 @@ const setDataOnCard = (el) => {
   const div = document.createElement("div");
   div.className = "max-w-sm bg-white border border-gray-200 rounded-lg shadow";
   div.innerHTML = `
- <img class=${el?.image} alt="${el?.phone_name} img"/>
+ <img class="mx-auto" src=${el?.image} alt="${el?.phone_name} img"/>
  <div class="p-5 flex flex-col justify-center items-center">
      <h5 class="mb-2 text-2xl font-bold text-center">${el?.phone_name}</h5>
      
