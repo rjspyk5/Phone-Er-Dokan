@@ -54,12 +54,23 @@ const setDataOnCard = (el) => {
  `;
   cardContainer.appendChild(div);
 };
+
+// single phone info
+const singlePhoneInfor = async (id) => {
+  const promisedData = await fetch(
+    `https://openapi.programming-hero.com/api/phone/${id}`
+  );
+  const d = await promisedData.json();
+  modal(d.data);
+};
+// modal
+const modal = (d) => {
+  console.log(d);
+};
 // handleShowbuttonclick
 const handleShowbuttonclick = (id) => {
-  const phone = alldata.find((el) => el.slug === id);
-  console.log(phone);
+  singlePhoneInfor(id);
 };
-
 // handleShowButton
 const handleShowButton = () => {
   alldata.forEach((el) => {
@@ -75,7 +86,6 @@ const handleSubmit = (e) => {
   findData(searchIteam, (isShowallButtonClick = false));
   spinner.classList.add("hidden");
 };
-
 // Calling event listener
 findData();
 submitBtn.addEventListener("click", handleSubmit);
