@@ -1,6 +1,8 @@
 const searchBox = document.getElementById("search-box");
 const submitBtn = document.getElementById("submit");
 const cardContainer = document.getElementById("card-container");
+const spinner = document.getElementById("spinner");
+const nothingFound = document.getElementById("nothingFound");
 
 // find data
 const findData = async (searchIteam = "Iphone") => {
@@ -9,17 +11,29 @@ const findData = async (searchIteam = "Iphone") => {
   );
   const parsedData = await promisedData.json();
   const alldata = parsedData.data;
-  cardContainer.innerHTML = "";
   const first15 = alldata.slice(0, 12);
-  first15.forEach((el) => {
-    setDataOnCard(el);
-  });
-  // show button checker
+
+  if (alldata.length > 0) {
+    first15.forEach((el) => {
+      setDataOnCard(el);
+    });
+  } else {
+    nothingFound.classList.remove("hidden");
+  }
+  spinner.classList.add("hidden");
   if (alldata.length > 12) {
-    document.getElementById("showSection").classList.remove("hidden");
+    document.getElementById("showSection")?.classList?.remove("hidden");
+  } else {
+    document.getElementById("showSection")?.classList?.add("hidden");
   }
 };
 
+// Clear previous items
+const clearPrevious = () => {
+  cardContainer.innerHTML = "";
+  nothingFound.classList.add("hidden");
+  spinner.classList.remove("hidden");
+};
 // Set data on website
 const setDataOnCard = (el) => {
   const div = document.createElement("div");
@@ -41,6 +55,7 @@ const setDataOnCard = (el) => {
 // Initial event listener function
 const handleSubmit = (e) => {
   e.preventDefault();
+  clearPrevious();
   const searchIteam = searchBox.value;
   findData(searchIteam);
 };
