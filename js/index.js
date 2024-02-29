@@ -3,6 +3,7 @@ const submitBtn = document.getElementById("submit");
 const cardContainer = document.getElementById("card-container");
 const spinner = document.getElementById("spinner");
 const nothingFound = document.getElementById("nothingFound");
+let alldata;
 
 // find data
 const findData = async (searchIteam = "Iphone") => {
@@ -10,24 +11,26 @@ const findData = async (searchIteam = "Iphone") => {
     `https://openapi.programming-hero.com/api/phones?search=${searchIteam}`
   );
   const parsedData = await promisedData.json();
-  const alldata = parsedData.data;
-  const first15 = alldata.slice(0, 12);
-
-  if (alldata.length > 0) {
+  alldata = parsedData.data;
+  filterData(alldata);
+};
+// Filter Data and show all checker
+const filterData = (alldata) => {
+  let first15 = alldata.slice(0, 12);
+  if (first15.length > 0) {
     first15.forEach((el) => {
       setDataOnCard(el);
     });
   } else {
     nothingFound.classList.remove("hidden");
   }
-  spinner.classList.add("hidden");
+  // conditional show all button
   if (alldata.length > 12) {
     document.getElementById("showSection")?.classList?.remove("hidden");
   } else {
     document.getElementById("showSection")?.classList?.add("hidden");
   }
 };
-
 // Clear previous items
 const clearPrevious = () => {
   cardContainer.innerHTML = "";
@@ -52,12 +55,24 @@ const setDataOnCard = (el) => {
  `;
   cardContainer.appendChild(div);
 };
+
+// handleShowButton
+const handleShowButton = () => {
+  alldata.forEach((el) => {
+    setDataOnCard(el);
+  });
+  document.getElementById("showSection")?.classList?.add("hidden");
+};
 // Initial event listener function
 const handleSubmit = (e) => {
   e.preventDefault();
   clearPrevious();
   const searchIteam = searchBox.value;
-  findData(searchIteam);
+  findData(searchIteam, (isShowallButtonClick = false));
+  spinner.classList.add("hidden");
 };
+
+// Calling event listener
 findData();
 submitBtn.addEventListener("click", handleSubmit);
+document.getElementById("showall").addEventListener("click", handleShowButton);
