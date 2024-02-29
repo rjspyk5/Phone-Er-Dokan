@@ -46,14 +46,18 @@ const setDataOnCard = (el) => {
  <img class="mx-auto" src=${el?.image} alt="${el?.phone_name} img"/>
  <div class="p-5 flex flex-col justify-center items-center">
      <h5 class="mb-2 text-2xl font-bold text-center">${el?.phone_name}</h5>
-     
-     <a id=${el.slug} href="#"
-         class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800">
+     <butoon id="${el.slug}" onclick="handleShowbuttonclick(id)" 
+         class="inline-flex items-center hover:cursor-pointer px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800">
          Show Details
-     </a>
+     </butoon>
  </div>
  `;
   cardContainer.appendChild(div);
+};
+// handleShowbuttonclick
+const handleShowbuttonclick = (id) => {
+  const phone = alldata.find((el) => el.slug === id);
+  console.log(phone);
 };
 
 // handleShowButton
